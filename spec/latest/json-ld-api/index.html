@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<title>The JSON-LD API 1.0</title>
+<title>JSON-LD API 1.0</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <!--
   === NOTA BENE ===
@@ -149,8 +149,8 @@
       var respecConfig = {
           doRDFa: "1.1",
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "CG-FINAL",
-          //publishDate:          "2010-04-29",
+          specStatus:           "FPWD",
+          publishDate:          "2012-07-12",
           copyrightStart:       "2010",
 
           // the specification's short name, as in http://www.w3.org/TR/short-name/
@@ -161,13 +161,13 @@
 
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
-          previousPublishDate:  "2012-05-24",
-          previousMaturity:     "CG-DRAFT",
-          previousDiffURI:      "http://json-ld.org/spec/ED/json-ld-api/20120524/",
+          previousPublishDate:  "2012-06-26",
+          previousMaturity:     "CG-FINAL",
+          previousDiffURI:      "http://json-ld.org/spec/ED/json-ld-api/20120626/",
           diffTool:             "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
 
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://json-ld.org/spec/latest/json-ld-api/",
+          edDraftURI:           "http://dvcs.w3.org/hg/json-ld/raw-file/default/spec/latest/json-ld-api/index.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -175,6 +175,8 @@
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
           // extraCSS: [],
+
+          issueBase: "https://github.com/json-ld/json-ld.org/issues/",
 
           // editors, add as many as you like
           // only "name" is required
@@ -205,10 +207,10 @@
           ],
 
           // name of the WG
-          wg:           "JSON for Linking Data Community Group",
+          wg:           "RDF Working Group",
 
           // URI of the public WG page
-          wgURI:        "http://www.w3.org/community/json-ld/",
+          wgURI:        "http://www.w3.org/2011/rdf-wg/",
 
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-rdf-comments",
@@ -221,7 +223,7 @@
           wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/46168/status",
           maxTocLevel: 4,
           preProcess: [ preProc ],
-          alternateFormats: [ {uri: "diff-20120524.html", label: "diff to previous version"} ],
+          alternateFormats: [ {uri: "diff-20120626.html", label: "diff to previous version"} ],
       };
 
       function _esc(s) {
@@ -264,13 +266,11 @@ environments like JavaScript, Python, and Ruby.
 <section id='sotd'>
 <p>This document has been under development for over 18 months in the
 JSON for Linking Data Community Group. The document has recently been
-approved for transfer into the RDF Working Group for
-review with the intent to publish the
-document along the W3C
-Recommendation track. This specification has undergone significant
-development, review, and changes during the course of the last 18
-months and is being published as a Final Community Group Specification so that
-it may gain wider review and feedback.
+transferred to the RDF Working Group for review, improvement, and publication
+along the Recommendation track. While this is a First Public Working Draft
+publication, the specification has undergone significant development, review,
+and changes during the course of the last 18 months and is more mature than
+the First Public Working Draft status implies.
 </p>
 <p>
 There are currently
@@ -710,8 +710,7 @@ document:
     <dd>Any node in a <tref>linked data graph</tref> with at least one
     outgoing edge.</dd>
     <dt><tdef><abbr title="Internationalized Resource Identifier">IRI</abbr></tdef></dt>
-    <dd>An Internationalized Resource Identifier as described
-    in [[!RFC3987]]).</dd>
+    <dd>An Internationalized Resource Identifier as described in [[!RFC3987]].</dd>
     <dt><tdef>object</tdef></dt>
     <dd>A node in a <tref>linked data graph</tref> with at least one
     incoming edge.</dd>
@@ -752,10 +751,10 @@ developers use to access the JSON-LD transformation methods.
         no errors. If the expansion fails, an appropriate exception MUST be thrown.
 
         <dl class="parameters">
-          <dt>object or object[] or URL input</dt>
+          <dt>object or object[] or IRI input</dt>
           <dd>The JSON-LD object or array of JSON-LD objects to perform the expansion upon or an
             <tref>IRI</tref> referencing the JSON-LD document to expand.</dd>
-          <dt>object or URL? context</dt>
+          <dt>object or IRI? context</dt>
           <dd>An optional external context to use additionally to the context embedded in
             <code>input</code> when expanding the <code>input</code>.</dd>
           <dt>JsonLdCallback callback</dt>
@@ -792,10 +791,10 @@ developers use to access the JSON-LD transformation methods.
         thrown.
 
         <dl class="parameters">
-          <dt>object or object[] or URL input</dt>
+          <dt>object or object[] or IRI input</dt>
            <dd>The JSON-LD object or array of JSON-LD objects to perform the compaction upon or an
             <tref>IRI</tref> referencing the JSON-LD document to compact.</dd>
-          <dt>object or URL context</dt>
+          <dt>object or IRI context</dt>
           <dd>The context to use when compacting the <code>input</code>; either in the
             form of an <tref>JSON object</tref> or as <tref>IRI</tref>.</dd>
           <dt>JsonLdCallback callback</dt>
@@ -850,8 +849,8 @@ developers use to access the JSON-LD transformation methods.
         <a href="#convert-to-rdf-algorithm">Convert to RDF Algorithm</a>, calling
         the provided <code>callback</code> for each <ldtref>Quad</ldtref> generated.
         <dl class="parameters">
-          <dt>object or object[] or URL input</dt>
-          <dd>The JSON-LD object or array of JSON-LD objects to convert to RDF or a <a>URL</a>
+          <dt>object or object[] or IRI input</dt>
+          <dd>The JSON-LD object or array of JSON-LD objects to convert to RDF or a <a>IRI</a>
             referencing the JSON-LD document to convert to RDF.</dd>
           <dt>QuadCallback callback</dt>
           <dd>A callback that is called when a <ldtref>Quad</ldtref> is created from processing
@@ -926,34 +925,37 @@ developers use to access the JSON-LD transformation methods.
     <p>This section describes datatype definitions used within the JSON-LD API.</p>
 
     <section>
-    <h3>URL</h3>
-    <p>The <a>URL</a> datatype is a string representation of an <tref>IRI</tref>.</p>
-    <div title="typedef DOMString URL" class="idl">
-      This datatype indicates that the <tref>IRI</tref> is interpreted as a Universal Resource
-      Locator
-      identifying a document, which when parsed as JSON yields either a <code>JSON object</code>
-      or <code>array</code>.
+    <h3>IRI</h3>
+    <p>The <a>IRI</a> datatype is a string representation of an <tref>IRI</tref>.</p>
+    <div title="typedef DOMString IRI" class="idl">
+      This datatype indicates that the <em>string</em> is interpreted as an Internationalized
+      Resource Identifier [[!RFC3987]] identifying a document, which when parsed as JSON yields
+      either a <tref>JSON object</tref> or <tref>array</tref>.
     </div>
     </section>
 
     <section>
     <h3>JsonLdOptions</h3>
-    <p>The <a>JsonLdOptions</a> type is used to convert a set of options to an interface method.</p>
-    <dl title="typedef object JsonLdOptions" class="idl">
-      <dt><a>URL</a> base</dt>
+    <p>The <a>JsonLdOptions</a> type is used to pass various options to the <a>JsonLdProcessor</a> methods.</p>
+    <dl title="dictionary JsonLdOptions" class="idl">
+      <dt>IRI? base</dt>
       <dd>The Base IRI to use when expanding the document. This overrides the value of
-        <em>input</em> if it is a <a>URL</a> or if it is a <code>object</code> or <code>object[]</code>.</dd>
-      <dt>boolean optimize</dt>
+        <em>input</em> if it is a <a>IRI</a>. If not specified and <em>input</em> is not
+        an <a>IRI</a>, the base IRI defaults to the current document IRI if in a browser context,
+        or the empty string if there is no document context.</dd>
+      <dt>boolean optimize = false</dt>
       <dd>If set to <code>true</code>, the JSON-LD processor is allowed to
         optimize the output of the <a href="#compaction-algorithm">Compaction Algorithm</a>
         to produce even compacter representations. The algorithm for compaction
         optimization is beyond the scope of this specification and thus
         not defined. Consequently, different implementations MAY implement
-        different optimization algorithms.</dd>
-      <dt>boolean noType</dt>
+        different optimization algorithms.<br>
+        The default value is <code>false</code>.</dd>
+      <dt>boolean noType = false</dt>
       <dd>If set to <code>true</code>, the JSON-LD processor will not use the
         <code>@type</code> property when generating the output, and will use the
-        expanded <code>rdf:type</code> IRI as the property instead of <code>@type</code>.</dd>
+        expanded <code>rdf:type</code> IRI as the property instead of <code>@type</code>.<br>
+        The default value is <code>false</code>.</dd>
     </dl>
     </section>
 
@@ -982,7 +984,7 @@ developers use to access the JSON-LD transformation methods.
       <dd>If present, the name associated with the <a>Quad</a> identifying
         it as a member of a <tref>named graph</tref>. If it is missing, the quad
         is a member of the <tref>default graph</tref>.
-        <div class="issue">This element is at risk, and may be removed.</div>
+        <div class="issue" data-number="125">This element is at risk, and may be removed.</div>
       </dd>
     </dl>
     </section>
@@ -1264,7 +1266,7 @@ language-native data structures MUST be used where applicable.</p>
     continuing <a href="#object-context">Step 2.3.2</a> until no changes are made, mappings to IRIs created
     using an undefined term prefix will eventually resolve to <tref>absolute IRI</tref>s.</p>
 
-  <p class="issue"><a href="https://github.com/json-ld/json-ld.org/issues/43">Issue 43</a>
+  <p class="issue" data-number="43"><a href="https://github.com/json-ld/json-ld.org/issues/43">Issue 43</a>
     concerns performing IRI expansion in the key position of a context definition.</p>
 </section>
 
@@ -1323,7 +1325,8 @@ language-native data structures MUST be used where applicable.</p>
               <li>If <em>term</em> has a <code>@container</code> set to <code>@set</code>, continue
                 to the next <em>term</em>.</li>
               <li>If <em>list container</em> is <code>true</code> and <em>term</em> does not have a
-                <code>container</code> set to <code>@list</code>, continue to the next <em>term</em>.</li>
+                <code>container</code> set to <code>@list</code> and <em>value</em> is <tref>null</tref>,
+                continue to the next <em>term</em>.</li>
             </ol>
           </li>
           <li>Otherwise, if <em>term</em> has a <code>container</code> set to <code>@list</code>,
@@ -2263,7 +2266,7 @@ var myObj2 = jsonld.fromRDF(myRdfTripleCollector.getTriples());
 
 <section class="appendix" id="appendix-a">
   <h1>Initial Context</h1>
-  <p class="issue">It is <a href="https://github.com/json-ld/json-ld.org/issues/80">still being
+  <p class="issue" data-number="80">It is <a href="https://github.com/json-ld/json-ld.org/issues/80">still being
     discussed</a> whether JSON-LD has the notion of an initial context or not. If JSON-LD has an
     initial context, it MUST be specified external to the JSON-LD Syntax specification at a
     well-known location.</p>
@@ -2272,17 +2275,21 @@ var myObj2 = jsonld.fromRDF(myRdfTripleCollector.getTriples());
 <section class="appendix">
 <h1>Acknowledgements</h1>
 
-<p>The editors would like to thank Mark Birbeck, who provided a great deal of
-the initial push behind the JSON-LD work via his work on RDFj,
-Dave Lehn and Mike Johnson who reviewed, provided feedback, and
-performed several implementations of the specification, and Ian Davis, who
-created RDF/JSON. Thanks also to Nathan Rixham, Bradley P. Allen,
+<p>A large amount of thanks goes out to the JSON-LD Community Group
+participants who worked through many of the technical issues on the mailing
+list and the weekly telecons - of special mention are Niklas Lindström,
+François Daoust, and Zdenko 'Denny' Vrandečić.
+The editors would like to thank Mark Birbeck, who provided a great deal of
+the initial push behind the JSON-LD work via his work on RDFj.
+The work of Dave Lehn and Mike Johnson are appreciated for reviewing,
+and performing several implementations of the specification. Ian Davis is
+thanked for this work on RDF/JSON. Thanks also to Nathan Rixham,
+Bradley P. Allen,
 Kingsley Idehen, Glenn McDonald, Alexandre Passant, Danny Ayers, Ted
 Thibodeau Jr., Olivier Grisel, Josh Mandel, Eric Prud'hommeaux,
 David Wood, Guus Schreiber, Pat Hayes, Sandro Hawke, and Richard
 Cyganiak for their input on the specification.
-</p>
-</section>
+</p></section>
 
 </body>
 </html>
